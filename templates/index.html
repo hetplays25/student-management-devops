@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <div>
+            <p class="eyebrow">DEVOPS DEMO</p>
+            <h1>Student Management System</h1>
+            <p class="subtitle">Flask + SQLite + Docker + Jenkins CI/CD</p>
+        </div>
+        <span class="status">● RUNNING</span>
+    </header>
+
+    <section class="card">
+        <h2>Add Student</h2>
+        <form action="/add" method="POST" class="form-grid">
+            <input name="name" placeholder="Student name" required>
+            <input name="roll_no" placeholder="Roll number" required>
+            <input name="course" placeholder="Course" required>
+            <button type="submit">Add Student</button>
+        </form>
+    </section>
+
+    <section class="card">
+        <div class="section-title">
+            <h2>Students</h2>
+            <span>{{ students|length }} record(s)</span>
+        </div>
+
+        {% if students %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Name</th><th>Roll No.</th><th>Course</th><th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.roll_no }}</td>
+                        <td>{{ student.course }}</td>
+                        <td>
+                            <form action="/delete/{{ student.id }}" method="POST">
+                                <button class="delete" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <div class="empty">No students yet. Add the first student above.</div>
+        {% endif %}
+    </section>
+
+    <footer>
+        <a href="/health">Health Check</a>
+        <span>Automated CI/CD Project</span>
+    </footer>
+</div>
+</body>
+</html>
